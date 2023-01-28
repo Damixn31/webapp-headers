@@ -19,12 +19,8 @@ public class BuscarProductoServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ProductoService service = new ProductoServiceImpl();
         String nombre = req.getParameter("producto");
-       Optional<Producto> encontrado = service.listar().stream().filter(p -> {
-           if (nombre == null || nombre.isBlank()) {
-               return false;
-           }
-          return p.getNombre().contains(nombre);
-       }).findFirst();
+       Optional<Producto> encontrado = service.buscarProducto(nombre);
+       
        if(encontrado.isPresent()) {
            resp.setContentType("text/html;charset=UTF-8");
            try (PrintWriter out = resp.getWriter()) {
